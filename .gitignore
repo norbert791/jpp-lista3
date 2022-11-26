@@ -31,4 +31,9 @@ lia.cache
 nia.cache
 nlia.cache
 nra.cache
+#vs code
 .vscode
+#build
+build
+
+
