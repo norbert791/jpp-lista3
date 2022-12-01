@@ -98,6 +98,7 @@ namespace MyField {
     this->value = (this->value + 1 ) % T;
     return *this;
   }
+  
   template<unsigned long long T>
   FiniteModField<T> FiniteModField<T>::operator--(int) noexcept {
     if (this->value == 0) {this->value = T - 1;}
