@@ -41,7 +41,7 @@ namespace MyField {
       FiniteModField<T> operator + (const FiniteModField<T>& number) const noexcept;
       FiniteModField<T> operator - (const FiniteModField<T>& number) const noexcept;
       FiniteModField<T> operator * (const FiniteModField<T>& number) const noexcept;
-      FiniteModField<T> operator / (const FiniteModField<T>& number) const noexcept;
+      FiniteModField<T> operator / (const FiniteModField<T>& number) const;
       FiniteModField<T> operator - () const noexcept;
       FiniteModField<T> operator ++ (int) noexcept;
       FiniteModField<T> operator -- (int) noexcept;
@@ -50,7 +50,7 @@ namespace MyField {
       FiniteModField<T>& operator += (const FiniteModField<T>& number) noexcept;
       FiniteModField<T>& operator -= (const FiniteModField<T>& number) noexcept;
       FiniteModField<T>& operator *= (const FiniteModField<T>& number) noexcept;
-      FiniteModField<T>& operator /= (const FiniteModField<T>& number) noexcept;
+      FiniteModField<T>& operator /= (const FiniteModField<T>& number);
       bool operator == (const FiniteModField<T>& number) const noexcept ;
       inline unsigned long long returnBase() const noexcept {return T;}
       inline unsigned long long returnValue() const noexcept {return value;}

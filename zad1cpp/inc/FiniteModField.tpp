@@ -1,3 +1,4 @@
+#include <exception>
 #include "FiniteModField.hpp" //To help highliting addons.
 
 namespace MyField {
@@ -26,8 +27,9 @@ namespace MyField {
   }
 
   template<unsigned long long T>
-  FiniteModField<T> FiniteModField<T>::operator/(const FiniteModField<T>& number) const noexcept {
-    unsigned long long invert = this->invert(number.value); 
+  FiniteModField<T> FiniteModField<T>::operator/(const FiniteModField<T>& number) const {
+    if (number == {0}) {throw std::domain_error("0 division");}
+    unsigned long long invert = this->invert(number.value);
     return FiniteModField<T>((this->value * invert) % T);
   }
 
@@ -50,7 +52,8 @@ namespace MyField {
   }
 
   template<unsigned long long T>
-  FiniteModField<T>& FiniteModField<T>::operator/=(const FiniteModField<T>& number) noexcept {
+  FiniteModField<T>& FiniteModField<T>::operator/=(const FiniteModField<T>& number) {
+    if (number == {0}) {throw std::domain_error("0 division");}
     this->value = (this->value * this->invert(number.value)) % T;
     return *this;
   }
