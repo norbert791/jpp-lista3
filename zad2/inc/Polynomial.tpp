@@ -169,23 +169,44 @@ namespace MyPolynomial {
   template<FieldOperations T>
   std::pair<Polynomial<T>, Polynomial<T>> Polynomial<T>::divAlgorithm(const Polynomial<T>& left,
                                              const Polynomial<T>& right) {
-    if (right.degree() > left.degree()) {
-      return std::make_pair(Polynomial<T>{std::vector<T>{T{0}}}, left);
+
+    if (right.degree() == 0 && right.coefficients.at(0) == 0) {throw std::domain_error("Zero division");}
+
+    Polynomial<T> remainder(left);
+    Polynomial<T> quotient({0});
+    Polynomial<T> quotientSub({0});
+    {
+      std::vector<T> temp(right.coefficients);
+      temp.pop_back();
+      quotientSub = Polynomial<T>(temp);
     }
 
-    Polynomial<T> quotient(left);
-    Polynomial<T> remainder({0});
-
-    while(quotient.degree() >= right.degree()) {
-      std::vector<T> temp(quotient.degree(), {0});
-      temp.at(quotient.degree() - right.degree()) = quotient.coefficients.back() / right.coefficients.back();
-      remainder += Polynomial<T>{temp};
+    while(remainder.degree() > right.degree()) {
+      std::vector<T> temp(remainder.degree(), {0});
+      //std::cout<<"temp: "<<Polynomial<T>{temp}<<" deg: "<<Polynomial<T>{temp}.degree()<<std::endl;
+      //std::cout<<"remainder: "<<remainder<<" deg: "<<remainder.degree()<<std::endl;
+      //std::cout<<"right: "<<right<<" deg: "<<right.degree()<<std::endl;
+      temp.at(remainder.degree() - right.degree()) = remainder.coefficients.back() / right.coefficients.back();
+      quotient += Polynomial<T>{temp};
       //quotient.coefficients.pop_back();
-      //trimVector(quotient.coefficients);
       //check it
-      quotient -= (right * Polynomial<T>{temp});
-      std::cout<<"quotient: "<<quotient<<" deg: "<<quotient.degree()<<std::endl;
-      std::cout<<"right: "<<right<<" deg: "<<right.degree()<<std::endl;
+      remainder.coefficients.pop_back();
+      trimVector(quotient.coefficients);
+      remainder -= (quotientSub * Polynomial<T>{temp});
+    }
+
+    if (remainder.degree() == right.degree()) {
+      std::vector<T> temp(remainder.degree(), {0});
+      //std::cout<<"temp: "<<Polynomial<T>{temp}<<" deg: "<<Polynomial<T>{temp}.degree()<<std::endl;
+      //std::cout<<"remainder: "<<remainder<<" deg: "<<remainder.degree()<<std::endl;
+      //std::cout<<"right: "<<right<<" deg: "<<right.degree()<<std::endl;
+      temp.at(0) = remainder.coefficients.back() / right.coefficients.back();
+      quotient += Polynomial<T>{temp};
+      //quotient.coefficients.pop_back();
+      //check it
+      remainder = Polynomial<T>({temp.at(0)});
+      trimVector(quotient.coefficients);
+      remainder -= (quotientSub * Polynomial<T>{temp}); 
     }
 
     return std::make_pair(quotient, remainder);

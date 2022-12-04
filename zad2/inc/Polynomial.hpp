@@ -50,7 +50,6 @@ namespace MyPolynomial {
       Polynomial<T>& operator /= (const Polynomial<T>& pol);
       Polynomial<T>& operator %= (const Polynomial<T>& pol);
 
-      //TODO: implements
       bool operator == (const Polynomial<T>& pol) noexcept;
 
       inline size_t degree() const noexcept {return coefficients.size() - 1;};

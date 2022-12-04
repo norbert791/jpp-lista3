@@ -28,7 +28,7 @@ namespace MyField {
 
   template<unsigned long long T>
   FiniteModField<T> FiniteModField<T>::operator/(const FiniteModField<T>& number) const {
-    if (number == {0}) {throw std::domain_error("0 division");}
+    if (number == FiniteModField<T>{0}) {throw std::domain_error("0 division");}
     unsigned long long invert = this->invert(number.value);
     return FiniteModField<T>((this->value * invert) % T);
   }
@@ -53,7 +53,7 @@ namespace MyField {
 
   template<unsigned long long T>
   FiniteModField<T>& FiniteModField<T>::operator/=(const FiniteModField<T>& number) {
-    if (number == {0}) {throw std::domain_error("0 division");}
+    if (number == FiniteModField<T>{0}) {throw std::domain_error("0 division");}
     this->value = (this->value * this->invert(number.value)) % T;
     return *this;
   }
@@ -121,4 +121,9 @@ namespace MyField {
     number.value = temp;
     return stream;
   };
+
+  template<unsigned long long T>
+  bool  FiniteModField<T>::operator == (const FiniteModField<T>& number) const noexcept  {
+    return number.value == this->value;
+  }
 }
