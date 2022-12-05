@@ -1,4 +1,4 @@
-package zad1java;
+package zad3;
 
 import java.io.Serializable;
 
@@ -55,28 +55,24 @@ public class FiniteModField implements Serializable{
   }
 
   public final FiniteModField inverse() {
-    long m = this.base;
-    long m0 = m;
-    long a = this.value;
-    long y = 0;
-    long x = 1;
+    long y1 = 0;
+    long y2 = 1;
+    long a = value;
+    long P = base;
 
-    while (a > 1) {
-      long q = a / m;
-      long t = m;
-      m = a % m; 
-      a = t;
-      t = y;
-
-      y = x - q * y;
-      x = t;
+    while (a != 1) {
+      long q = P / a;
+      long newA = P - ((q * a) % P);
+      long newP = a;
+      long newY2 = y1;
+      
+      y1 = y2 % P > q ? (y2 % P) - q : P - (q - (y2 % P));
+      P = newP;
+      y2 = newY2;
+      a = newA;
     }
 
-    if (x < 0) {
-      x += m0;
-    }
-
-    return new FiniteModField(x, base);
+    return new FiniteModField(y1, base);
   }
 
   public final FiniteModField negate() {

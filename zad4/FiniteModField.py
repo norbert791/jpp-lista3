@@ -1,7 +1,4 @@
 
-from xmlrpc.client import Boolean
-
-
 class FiniteModField:
   def __init__(self, value : int, base : int):
     if not self.__isPrime(base):
@@ -70,7 +67,7 @@ class FiniteModField:
     while (a > 1):
       q = a / m
       t = m
-      m = a % m;
+      m = a % m
       a = t
       t = y
 
