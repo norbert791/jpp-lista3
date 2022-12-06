@@ -1,8 +1,6 @@
 package zad3;
 
-import java.io.Serializable;
-
-public class FiniteModField implements Serializable{
+public class FiniteModField implements Field<Long> {
   private long value;
   private final long base;
 
@@ -23,38 +21,28 @@ public class FiniteModField implements Serializable{
     }
   }  
 
-  public final FiniteModField increment() {
-    value++;
-    return this;
+  @Override
+  public final FiniteModField sum(final Field<Long> num) throws ArithmeticException{
+    return new FiniteModField((value + num.getValue()) % base, base);
   }
 
-  public final FiniteModField decrement() {
-    if (value == 0) {value = base - 1;}
-    else {return this;}
-    return this;
-  }
-  
-  public final FiniteModField sum(final FiniteModField num) throws ArithmeticException{
-    verifyBases(num);
-    return new FiniteModField((value + num.value) % base, base);
-  }
-
-  public final FiniteModField difference(final FiniteModField num) throws ArithmeticException {
-    verifyBases(num);
+  @Override
+  public final FiniteModField difference(final Field<Long> num) throws ArithmeticException {
     return sum(num.negate());
   }
 
-  public final FiniteModField product(final FiniteModField num) throws ArithmeticException {
-    verifyBases(num);
-    return new FiniteModField((value * num.value) % base, base);
+  @Override
+  public final FiniteModField product(final Field<Long> num) throws ArithmeticException {
+    return new FiniteModField((value * num.getValue()) % base, base);
   }
 
-  public final FiniteModField division(final FiniteModField num) throws ArithmeticException {
-    verifyBases(num);
+  @Override
+  public final FiniteModField division(final Field<Long> num) throws ArithmeticException {
     return this.product(num.inverse());
   }
 
-  public final FiniteModField inverse() {
+  @Override
+  public final FiniteModField inverse() throws ArithmeticException {
     long y1 = 0;
     long y2 = 1;
     long a = value;
@@ -75,11 +63,13 @@ public class FiniteModField implements Serializable{
     return new FiniteModField(y1, base);
   }
 
+  @Override
   public final FiniteModField negate() {
     return new FiniteModField(base - value, base);
   }
 
-  public final long getValue() {return value;}
+  @Override
+  public final Long getValue() {return value;}
   public final long getBase() {return base;}
 
   private boolean isPrime(long number) {
@@ -97,7 +87,19 @@ public class FiniteModField implements Serializable{
     return String.format("%d mod %d", value, base);
   }
 
-  private void verifyBases(final FiniteModField num) throws ArithmeticException{
-    if (base != num.base) {throw new ArithmeticException("Bases are not compatible");}
+  @Override
+  public FiniteModField zeroElem() {
+    return new FiniteModField(0, this.base);
   }
+
+  @Override
+  public FiniteModField oneElem() {
+    return new FiniteModField(1, this.base);
+  }
+
+  @Override
+  public int compareTo(Field<Long> o) {
+    return Long.valueOf(this.value).compareTo(o.getValue());
+  }
+
 }

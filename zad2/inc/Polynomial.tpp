@@ -182,7 +182,7 @@ namespace MyPolynomial {
     }
 
     while(remainder.degree() > right.degree()) {
-      std::vector<T> temp(remainder.degree(), {0});
+      std::vector<T> temp(remainder.degree() + 1, {0});
       //std::cout<<"temp: "<<Polynomial<T>{temp}<<" deg: "<<Polynomial<T>{temp}.degree()<<std::endl;
       //std::cout<<"remainder: "<<remainder<<" deg: "<<remainder.degree()<<std::endl;
       //std::cout<<"right: "<<right<<" deg: "<<right.degree()<<std::endl;
@@ -196,7 +196,7 @@ namespace MyPolynomial {
     }
 
     if (remainder.degree() == right.degree()) {
-      std::vector<T> temp(remainder.degree(), {0});
+      std::vector<T> temp(remainder.degree() + 1, {0});
       //std::cout<<"temp: "<<Polynomial<T>{temp}<<" deg: "<<Polynomial<T>{temp}.degree()<<std::endl;
       //std::cout<<"remainder: "<<remainder<<" deg: "<<remainder.degree()<<std::endl;
       //std::cout<<"right: "<<right<<" deg: "<<right.degree()<<std::endl;

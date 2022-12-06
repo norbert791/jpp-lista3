@@ -56,7 +56,7 @@ class FiniteModField:
   def __verifyNumber(self, number) -> None:
     if number.getBase() != self.__base:
       raise ArithmeticError("Operation of two numbers of different bases is illegal")
-  
+
   def inverse(self, number):
     m = self.__base
     m0 = m
