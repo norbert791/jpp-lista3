@@ -9,7 +9,6 @@ int main() {
   std::cout<<pol1 + pol2<<std::endl;
   std::cout<<pol2 - pol1<<std::endl;
   std::cout<<pol2 * pol1<<std::endl;
-  std::cout<<"-----"<<std::endl;
   std::cout<<pol2 / pol1<<std::endl;
   std::cout<<pol2 % pol1<<std::endl;
   std::cout<<pol2 / pol2<<std::endl;

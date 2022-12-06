@@ -1,6 +1,6 @@
 package zad3;
 
-class FloatField implements Field<Float> {
+class FloatField implements Field<FloatField> {
 
   private Float value = Float.valueOf(0.0f);
 
@@ -9,53 +9,48 @@ class FloatField implements Field<Float> {
   }
 
   @Override
-  public int compareTo(Field<Float> o) {
-    return value.compareTo(o.getValue());
+  public int compareTo(FloatField o) {
+    return value.compareTo(o.value);
   }
 
   @Override
-  public Field<Float> sum(Field<Float> a) throws ArithmeticException {
-    return new FloatField(Float.sum(value, a.getValue()));
+  public FloatField sum(FloatField a) throws ArithmeticException {
+    return new FloatField(Float.sum(value, a.value));
   }
 
   @Override
-  public Field<Float> difference(Field<Float> a) throws ArithmeticException {
-    return new FloatField(value.floatValue() * a.getValue());
+  public FloatField difference(FloatField a) throws ArithmeticException {
+    return new FloatField(value.floatValue() * a.value);
   }
 
   @Override
-  public Field<Float> product(Field<Float> a) throws ArithmeticException {
-    return new FloatField(a.getValue() * this.value); 
+  public FloatField product(FloatField a) throws ArithmeticException {
+    return new FloatField(a.value * this.value); 
   }
 
   @Override
-  public Field<Float> division(Field<Float> a) throws ArithmeticException {
-    return new FloatField(a.getValue() * this.value);
+  public FloatField division(FloatField a) throws ArithmeticException {
+    return new FloatField(this.value / a.value);
   }
 
   @Override
-  public Field<Float> zeroElem() {
+  public FloatField zeroElem() {
     return new FloatField(0.0f);
   }
 
   @Override
-  public Field<Float> oneElem() {
+  public FloatField oneElem() {
     return new FloatField(1.0f);
   }
 
   @Override
-  public Field<Float> negate() {
+  public FloatField negate() {
     return new FloatField(-value);
   }
 
   @Override
-  public Field<Float> inverse() throws ArithmeticException {
+  public FloatField inverse() throws ArithmeticException {
     return new FloatField(1 / value);
-  }
-
-  @Override
-  public Float getValue() {
-    return this.value;
   }
 
   @Override

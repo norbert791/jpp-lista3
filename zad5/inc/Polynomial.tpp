@@ -58,7 +58,12 @@ namespace MyPolynomial {
     auto p1 = pol.coefficients;
     auto p2 = this->coefficients;
 
-    Polynomial<T>::alignVectors(p1, p2);
+    while (p1.size() > p2.size()) {
+      p2.emplace_back(T{0});
+    }
+    while (p1.size() < p2.size()) {
+      p1.emplace_back(T{0});
+    }
 
     if (p1.size() % 2 == 1) {
       p1.emplace_back(T{0});
@@ -176,24 +181,40 @@ namespace MyPolynomial {
       quotientSub = Polynomial<T>(temp);
     }
 
-    while(remainder.degree() >= right.degree()) {
+    while(remainder.degree() > right.degree()) {
       std::vector<T> temp(remainder.degree() + 1, {0});
+      //std::cout<<"temp: "<<Polynomial<T>{temp}<<" deg: "<<Polynomial<T>{temp}.degree()<<std::endl;
+      //std::cout<<"remainder: "<<remainder<<" deg: "<<remainder.degree()<<std::endl;
+      //std::cout<<"right: "<<right<<" deg: "<<right.degree()<<std::endl;
       temp.at(remainder.degree() - right.degree()) = remainder.coefficients.back() / right.coefficients.back();
       quotient += Polynomial<T>{temp};
+      //quotient.coefficients.pop_back();
+      //check it
       remainder.coefficients.pop_back();
       trimVector(quotient.coefficients);
       remainder -= (quotientSub * Polynomial<T>{temp});
     }
-    
+
+    if (remainder.degree() == right.degree()) {
+      std::vector<T> temp(remainder.degree() + 1, {0});
+      //std::cout<<"temp: "<<Polynomial<T>{temp}<<" deg: "<<Polynomial<T>{temp}.degree()<<std::endl;
+      //std::cout<<"remainder: "<<remainder<<" deg: "<<remainder.degree()<<std::endl;
+      //std::cout<<"right: "<<right<<" deg: "<<right.degree()<<std::endl;
+      temp.at(0) = remainder.coefficients.back() / right.coefficients.back();
+      quotient += Polynomial<T>{temp};
+      //quotient.coefficients.pop_back();
+      //check it
+      remainder = Polynomial<T>({temp.at(0)});
+      trimVector(quotient.coefficients);
+      remainder -= (quotientSub * Polynomial<T>{temp}); 
+    }
+
     return std::make_pair(quotient, remainder);
   }
 
   template<FieldOperations T>
   std::vector<T> Polynomial<T>::karatsubaMulti(const std::vector<T>&
-   mul1, const std::vector<T>& mul2) noexcept {
-    auto first = std::vector<T>(mul1);
-    auto second = std::vector<T>(mul2);
-    alignVectors(first, second);
+   first, const std::vector<T>& second) noexcept {
     if (first.size() == 1) {
       return {first.at(0) * second.at(0)};
     }
@@ -231,18 +252,6 @@ namespace MyPolynomial {
       v.pop_back();
     }
   }
-
-  template<FieldOperations T>
-  void Polynomial<T>::alignVectors(std::vector<T>& v1, std::vector<T>& v2) {
-    while (v1.size() < v2.size()) {
-      v1.emplace_back(T{0});
-    }
-
-    while (v1.size() > v2.size()) {
-      v2.emplace_back(T{0});
-    }
-  }
-
 }
 
 #endif //MY_POLYNOMIAL_TPP

@@ -8,3 +8,5 @@ if __name__ == "__main__":
   print(pol1 * pol2)
   print(pol2 / pol1)
   print(pol2 % pol1)
+  print(pol2 / pol2)
+  print(pol2 % pol2)

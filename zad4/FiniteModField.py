@@ -57,7 +57,7 @@ class FiniteModField:
     if number.getBase() != self.__base:
       raise ArithmeticError("Operation of two numbers of different bases is illegal")
 
-  def inverse(self, number):
+  def inverse(self):
     m = self.__base
     m0 = m
     a = self.__value
@@ -73,10 +73,8 @@ class FiniteModField:
 
       y = x - q * y
       x = t
-    
 
     if (x < 0):
       x += m0
     
-
     return FiniteModField(x, self.__base)

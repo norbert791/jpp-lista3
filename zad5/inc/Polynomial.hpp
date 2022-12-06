@@ -68,8 +68,6 @@ namespace MyPolynomial {
 
       static std::pair<Polynomial<T>, Polynomial<T>> divAlgorithm(const Polynomial<T>& left,
                                                                   const Polynomial<T>& right);
-
-      static void alignVectors(std::vector<T>& v1, std::vector<T>& v2);
   };
 }
 

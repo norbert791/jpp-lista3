@@ -1,6 +1,6 @@
 package zad3;
 
-public class FiniteModField implements Field<Long> {
+public class FiniteModField implements Field<FiniteModField> {
   private long value;
   private final long base;
 
@@ -22,22 +22,22 @@ public class FiniteModField implements Field<Long> {
   }  
 
   @Override
-  public final FiniteModField sum(final Field<Long> num) throws ArithmeticException{
-    return new FiniteModField((value + num.getValue()) % base, base);
+  public final FiniteModField sum(final FiniteModField num) throws ArithmeticException{
+    return new FiniteModField((value + num.value) % base, base);
   }
 
   @Override
-  public final FiniteModField difference(final Field<Long> num) throws ArithmeticException {
+  public final FiniteModField difference(final FiniteModField num) throws ArithmeticException {
     return sum(num.negate());
   }
 
   @Override
-  public final FiniteModField product(final Field<Long> num) throws ArithmeticException {
-    return new FiniteModField((value * num.getValue()) % base, base);
+  public final FiniteModField product(final FiniteModField num) throws ArithmeticException {
+    return new FiniteModField((value * num.value) % base, base);
   }
 
   @Override
-  public final FiniteModField division(final Field<Long> num) throws ArithmeticException {
+  public final FiniteModField division(final FiniteModField num) throws ArithmeticException {
     return this.product(num.inverse());
   }
 
@@ -68,10 +68,6 @@ public class FiniteModField implements Field<Long> {
     return new FiniteModField(base - value, base);
   }
 
-  @Override
-  public final Long getValue() {return value;}
-  public final long getBase() {return base;}
-
   private boolean isPrime(long number) {
     if (number < 2) {return false;}
     
@@ -98,8 +94,8 @@ public class FiniteModField implements Field<Long> {
   }
 
   @Override
-  public int compareTo(Field<Long> o) {
-    return Long.valueOf(this.value).compareTo(o.getValue());
+  public int compareTo(FiniteModField o) {
+    return Long.valueOf(this.value).compareTo(o.value);
   }
 
 }

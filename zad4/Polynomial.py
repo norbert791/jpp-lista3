@@ -57,16 +57,17 @@ class Polynomial:
     quotientSub.pop()
     quotientSub = Polynomial(quotientSub)
 
-    while remainder.degree() > right.degree():
+    while remainder.degree() >= right.degree():
       temp = []
       while len(temp) < remainder.degree() + 1:
         temp.append(zeroElem)
       
       temp[remainder.degree() - right.degree()] = remainder.lst[len(remainder.lst) - 1] / right.lst[len(right.lst) - 1]
       quotient = quotient + Polynomial(temp)
-      remainder.lst.pop(len(left.lst) - 1)
+      remainder.lst.pop(len(remainder.lst) - 1)
       Polynomial.trimList(quotient.lst)
       remainder = remainder - (quotientSub * Polynomial(temp))
+
     return quotient, remainder
 
   def __str__(self):
